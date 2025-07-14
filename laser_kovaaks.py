@@ -3,7 +3,7 @@ import numpy as np
 import imutils
 import keyboard
 from screeninfo import get_monitors
-from interception import move_to
+from interception import move_to, hold_mouse
 
 cap = cv2.VideoCapture(0);
 #values frmo HSV_calibration.py
@@ -53,7 +53,8 @@ while(True):
         cY = int(M["m01"] / M["m00"])
         x = screenWidth - screenWidth * (cX/CAMERA_WIDTH)  
         y = screenHeight * (cY/CAMERA_HEIGHT)
-        move_to(x,y)
+        with hold_mouse("left"):
+            move_to(x,y)
         cv2.drawContours(output, [biggest_contour], -1, (0, 255, 0), 2)
         cv2.circle(output, (cX, cY), 7, (255, 255, 255), -1)
         cv2.putText(output, "center", (cX - 20, cY - 20),
